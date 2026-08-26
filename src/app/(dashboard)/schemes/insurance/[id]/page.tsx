@@ -7,10 +7,11 @@ export default async function InsuranceClaimPage({ params }: { params: Promise<{
   await enforcePermission('pmjay.manage')
   const { id } = await params
 
+  let claim;
   try {
-    const claim = await getClaimDetails(id)
-    return <ClaimDetailClient initialClaim={claim} />
+    claim = await getClaimDetails(id)
   } catch (e) {
     notFound()
   }
+  return <ClaimDetailClient initialClaim={claim} />
 }

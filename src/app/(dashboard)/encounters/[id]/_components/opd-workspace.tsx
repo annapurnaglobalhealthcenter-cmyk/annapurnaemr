@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useTransition } from 'react'
+import { useState, useCallback, useMemo, useEffect, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { saveClinicalNote, finalizeRecord, createDraftRecord, amendClinicalRecord } from '@/lib/services/clinical.service'
@@ -53,8 +53,8 @@ export function OPDWorkspace({
   const isDraft = activeRecord?.status === 'Draft'
   const isFinalized = activeRecord?.status === 'Finalized'
 
-  const debouncedSave = useCallback(
-    debounce(async (id: string, field: string, value: string) => {
+  const debouncedSave = useMemo(
+    () => debounce(async (id: string, field: string, value: string) => {
       try {
         await saveClinicalNote(id, { [field]: value })
         toast.success('Auto-saved')

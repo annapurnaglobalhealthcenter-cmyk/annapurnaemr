@@ -112,20 +112,17 @@ export default function NewAppointmentPage() {
     }
   }
 
-  const StepIndicator = () => (
+  const renderStepIndicator = () => (
     <div className="flex items-center space-x-2 text-sm mb-6">
       {(['patient','doctor','slot','confirm'] as Step[]).map((s, i) => (
         <div key={s} className="flex items-center">
-          <div className={`w-7 h-7 rounded-full flex items-center justify-center font-medium text-xs
-            ${step === s ? 'bg-blue-600 text-white' :
-              ['patient','doctor','slot','confirm'].indexOf(step) > i ? 'bg-green-500 text-white' :
-              'bg-gray-200 text-gray-500'}`}>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-xs ${
+            step === s ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'
+          }`}>
             {i + 1}
           </div>
-          <span className={`ml-1.5 hidden sm:inline ${step === s ? 'text-blue-600 font-medium' : 'text-gray-400'}`}>
-            {s.charAt(0).toUpperCase() + s.slice(1)}
-          </span>
-          {i < 3 && <ChevronRight className="w-4 h-4 text-gray-300 mx-2" />}
+          <span className="ml-2 capitalize hidden sm:inline text-slate-600">{s}</span>
+          {i < 3 && <div className="w-8 h-px bg-slate-200 mx-2" />}
         </div>
       ))}
     </div>
@@ -133,12 +130,12 @@ export default function NewAppointmentPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="border-b pb-4">
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">New Appointment</h1>
-        <p className="text-sm text-gray-500 mt-1">Walk through the receptionist booking workflow.</p>
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900">New Appointment</h1>
+        <p className="text-slate-500">Book a new consultation.</p>
       </div>
 
-      <StepIndicator />
+      {renderStepIndicator()}
 
       {/* STEP 1: Patient Search */}
       {step === 'patient' && (

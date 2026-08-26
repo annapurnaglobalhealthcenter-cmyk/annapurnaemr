@@ -7,11 +7,13 @@ export default async function PmjayCasePage({ params }: { params: Promise<{ id: 
   await enforcePermission('pmjay.manage')
   const { id } = await params
 
+  let pmjayCase;
+  let packages;
   try {
-    const pmjayCase = await getPmjayCaseDetails(id)
-    const packages = await getPmjayPackages()
-    return <PmjayDetailClient initialCase={pmjayCase} packages={packages} />
+    pmjayCase = await getPmjayCaseDetails(id)
+    packages = await getPmjayPackages()
   } catch (e) {
     notFound()
   }
+  return <PmjayDetailClient initialCase={pmjayCase} packages={packages} />
 }

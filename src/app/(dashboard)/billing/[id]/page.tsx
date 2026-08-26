@@ -12,11 +12,14 @@ export default async function BillingDetailPage({
   await enforcePermission('billing.manage')
   
   const { id } = await params
+  let invoice;
+  let paymentMethods;
   try {
-    const invoice = await getInvoiceWithDetails(id)
-    const paymentMethods = await getPaymentMethods()
-    return <BillingDetailClient initialInvoice={invoice} paymentMethods={paymentMethods} />
+    invoice = await getInvoiceWithDetails(id)
+    paymentMethods = await getPaymentMethods()
   } catch (err) {
     notFound()
   }
+  
+  return <BillingDetailClient initialInvoice={invoice} paymentMethods={paymentMethods} />
 }
