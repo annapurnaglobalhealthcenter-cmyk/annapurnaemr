@@ -9,17 +9,27 @@ export async function getPendingPrescriptions() {
     .from('medication_prescriptions')
     .select(`
       *,
-      encounters (
+      clinical_records!inner (
+        status,
         patients (id, first_name, last_name, identity_records(identity_type, identity_value)),
-        user_profiles!consulting_doctor_id (full_name)
+        user_profiles!provider_id (full_name)
       )
     `)
-    .in('status', ['Finalized']) // We only dispense locked, finalized prescriptions
-    .order('updated_at', { ascending: false })
+    .eq('clinical_records.status', 'Finalized')
+    .eq('dispense_status', 'Pending')
+    .order('created_at', { ascending: false })
     .limit(50)
 
   if (error) throw new Error(error.message)
-  return data
+
+  return (data || []).map((row: any) => ({
+    ...row,
+    status: row.dispense_status || 'Pending',
+    encounters: {
+      patients: row.clinical_records?.patients,
+      user_profiles: row.clinical_records?.user_profiles
+    }
+  }))
 }
 
 export async function getActiveBatches(medicineQuery?: string) {
