@@ -43,9 +43,9 @@ export function BloodBankClient({ initialInventory, initialRequests, initialDono
 
       <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
         <div className="border-b px-4 flex gap-4 bg-gray-50">
-          <button onClick={() => setActiveTab('inventory')} className={\px-4 py-3 text-sm font-medium border-b-2 \\}>Inventory</button>
-          <button onClick={() => setActiveTab('requests')} className={\px-4 py-3 text-sm font-medium border-b-2 \\}>Transfusion Requests</button>
-          <button onClick={() => setActiveTab('donors')} className={\px-4 py-3 text-sm font-medium border-b-2 \\}>Donors</button>
+          <button onClick={() => setActiveTab('inventory')} className={`px-4 py-3 text-sm font-medium border-b-2 ${activeTab === 'inventory' ? 'border-red-600 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Inventory</button>
+          <button onClick={() => setActiveTab('requests')} className={`px-4 py-3 text-sm font-medium border-b-2 ${activeTab === 'requests' ? 'border-red-600 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Transfusion Requests</button>
+          <button onClick={() => setActiveTab('donors')} className={`px-4 py-3 text-sm font-medium border-b-2 ${activeTab === 'donors' ? 'border-red-600 text-red-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Donors</button>
         </div>
 
         <div className="p-0">
@@ -64,7 +64,7 @@ export function BloodBankClient({ initialInventory, initialRequests, initialDono
                       <td className="px-6 py-4 font-bold text-red-600">{item.blood_group}</td>
                       <td className="px-6 py-4">{item.component_type}</td>
                       <td className="px-6 py-4">{format(parseISO(item.expiry_date), 'dd MMM yyyy')}</td>
-                      <td className="px-6 py-4"><span className={\px-2 py-1 rounded-full text-xs font-semibold \\}>{item.status}</span></td>
+                      <td className="px-6 py-4"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${item.status === 'Available' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>{item.status}</span></td>
                     </tr>
                   ))
                 )}

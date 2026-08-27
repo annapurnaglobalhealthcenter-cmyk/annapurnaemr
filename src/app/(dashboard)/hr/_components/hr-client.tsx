@@ -46,9 +46,9 @@ export function HRClient({ initialShifts, initialLeaves, initialStaff }: { initi
 
       <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
         <div className="border-b px-4 flex gap-4 bg-gray-50">
-          <button onClick={() => setActiveTab('shifts')} className={\px-4 py-3 text-sm font-medium border-b-2 \\}>Duty Roster</button>
-          <button onClick={() => setActiveTab('leaves')} className={\px-4 py-3 text-sm font-medium border-b-2 \\}>Leave Requests</button>
-          <button onClick={() => setActiveTab('staff')} className={\px-4 py-3 text-sm font-medium border-b-2 \\}>Staff Directory</button>
+          <button onClick={() => setActiveTab('shifts')} className={`px-4 py-3 text-sm font-medium border-b-2 ${activeTab === 'shifts' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Duty Roster</button>
+          <button onClick={() => setActiveTab('leaves')} className={`px-4 py-3 text-sm font-medium border-b-2 ${activeTab === 'leaves' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Leave Requests</button>
+          <button onClick={() => setActiveTab('staff')} className={`px-4 py-3 text-sm font-medium border-b-2 ${activeTab === 'staff' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Staff Directory</button>
         </div>
 
         <div className="p-0">
@@ -70,7 +70,7 @@ export function HRClient({ initialShifts, initialLeaves, initialStaff }: { initi
                       </td>
                       <td className="px-6 py-4">{s.departments?.name || 'General'}</td>
                       <td className="px-6 py-4">{s.start_time.slice(0,5)} - {s.end_time.slice(0,5)} <span className="text-xs text-gray-500 bg-gray-100 px-1 rounded ml-1">{s.shift_type}</span></td>
-                      <td className="px-6 py-4"><span className={\px-2 py-1 rounded-full text-xs font-semibold \\}>{s.status}</span></td>
+                      <td className="px-6 py-4"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${s.status === 'Scheduled' ? 'bg-blue-100 text-blue-700' : s.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{s.status}</span></td>
                     </tr>
                   ))
                 )}
@@ -92,7 +92,7 @@ export function HRClient({ initialShifts, initialLeaves, initialStaff }: { initi
                       <td className="px-6 py-4 font-medium">{l.user_profiles?.first_name} {l.user_profiles?.last_name}</td>
                       <td className="px-6 py-4 text-xs">{format(parseISO(l.start_date), 'dd MMM')} to {format(parseISO(l.end_date), 'dd MMM yyyy')}</td>
                       <td className="px-6 py-4">{l.leave_type}</td>
-                      <td className="px-6 py-4"><span className={\px-2 py-1 rounded-full text-xs font-semibold \\}>{l.status}</span></td>
+                      <td className="px-6 py-4"><span className={`px-2 py-1 rounded-full text-xs font-semibold ${l.status === 'Approved' ? 'bg-green-100 text-green-700' : l.status === 'Rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>{l.status}</span></td>
                     </tr>
                   ))
                 )}

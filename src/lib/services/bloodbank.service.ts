@@ -1,4 +1,4 @@
-﻿'use server'
+'use server'
 
 import { createClient } from '../supabase/server'
 import { revalidatePath } from 'next/cache'
@@ -18,11 +18,11 @@ export async function getBloodRequests() {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('blood_requests')
-    .select(
+    .select(`
       *,
       patients (first_name, last_name, identity_records(identity_type, identity_value)),
       user_profiles!requested_by (full_name)
-    )
+    `)
     .order('created_at', { ascending: false })
 
   if (error) throw new Error(error.message)
