@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Activity, Users, Bed, CreditCard, Shield, Settings, CalendarDays, FlaskConical, Stethoscope, Microscope, ClipboardList, Pill, Calendar, BookOpen } from "lucide-react"
+import { Activity, Users, Bed, CreditCard, Shield, Settings, CalendarDays, FlaskConical, Stethoscope, Microscope, ClipboardList, Pill, Calendar, BookOpen, Droplet, UserCheck } from "lucide-react"
 
 const navigation = [
   { name: 'Dashboard',    href: '/',             icon: Activity },
@@ -11,10 +11,12 @@ const navigation = [
   { name: 'Doctor',       href: '/doctor',       icon: Stethoscope },
   { name: 'Laboratory',   href: '/lab',          icon: Microscope },
   { name: 'Operation Theatre', href: '/ot', icon: Calendar },
+  { name: 'Blood Bank',   href: '/bloodbank',    icon: Droplet },
   { name: 'Radiology',    href: '/radiology',    icon: Microscope },
   { name: 'Pharmacy',     href: '/pharmacy',     icon: Pill },
   { name: 'IPD/Wards',    href: '/ipd',          icon: Bed },
   { name: 'Nursing',      href: '/nursing',      icon: Activity },
+  { name: 'HR & Rostering', href: '/hr',         icon: UserCheck },
   { name: 'Billing',      href: '/billing',      icon: CreditCard },
   { name: 'Schemes',      href: '/schemes',      icon: Shield },
   { name: 'Audit Logs',   href: '/audit',        icon: ClipboardList },
