@@ -1,4 +1,4 @@
-﻿import React from 'react'
+import React from 'react'
 import { BookOpen, Users, Activity, ShieldCheck, Pill, Microscope, Stethoscope, CreditCard, Syringe, Bed, FileText } from 'lucide-react'
 
 export default function GuidePage() {
@@ -132,7 +132,7 @@ export default function GuidePage() {
 function RoleCard({ title, icon: Icon, color, description }: { title: string, icon: any, color: string, description: string }) {
   return (
     <div className="border rounded-lg p-4 bg-white shadow-sm flex gap-4 items-start">
-      <div className={p-3 rounded-xl }>
+      <div className={`p-3 rounded-xl ${color}`}>
         <Icon className="w-6 h-6" />
       </div>
       <div>
