@@ -14,10 +14,12 @@ export async function getNursingDashboard() {
       admission_reason,
       patients (id, first_name, last_name, identity_records(identity_type, identity_value)),
       bed_allocations (beds (bed_number, wards(name))),
-      vitals (id, heart_rate, systolic_bp, diastolic_bp, temperature_c, recorded_at),
       encounters (
-        medication_prescriptions (
-          id, medication_name, dosage, frequency, instructions, status
+        vitals (id, heart_rate, systolic_bp, diastolic_bp, temperature_c, recorded_at),
+        clinical_records (
+          medication_prescriptions (
+            id, medication_name, dosage, frequency, instructions, dispense_status
+          )
         )
       )
     `)
@@ -27,16 +29,28 @@ export async function getNursingDashboard() {
   if (error) throw new Error(error.message)
 
   // Map to get the single active bed and the latest vitals
-  return data.map(adm => {
+  return (data || []).map((adm: any) => {
     const activeBed = adm.bed_allocations?.find((ba: any) => ba.beds)
     
+    const enc = Array.isArray(adm.encounters) ? adm.encounters[0] : adm.encounters
+    const allVitals = enc?.vitals || []
+    
     // Sort vitals by recorded_at desc and take first
-    const sortedVitals = (adm.vitals || []).sort((a: any, b: any) => 
+    const sortedVitals = allVitals.sort((a: any, b: any) => 
       new Date(b.recorded_at).getTime() - new Date(a.recorded_at).getTime()
     )
     
-    const enc = Array.isArray(adm.encounters) ? adm.encounters[0] : adm.encounters
-    const prescriptions = enc?.medication_prescriptions || []
+    let prescriptions: any[] = []
+    if (enc?.clinical_records) {
+       const records = Array.isArray(enc.clinical_records) ? enc.clinical_records : [enc.clinical_records]
+       records.forEach((r: any) => {
+           if (r.medication_prescriptions) {
+               const prescs = Array.isArray(r.medication_prescriptions) ? r.medication_prescriptions : [r.medication_prescriptions]
+               // Map dispense_status to status to match UI
+               prescriptions = prescriptions.concat(prescs.map((p: any) => ({...p, status: p.dispense_status})))
+           }
+       })
+    }
     
     return {
       ...adm,
