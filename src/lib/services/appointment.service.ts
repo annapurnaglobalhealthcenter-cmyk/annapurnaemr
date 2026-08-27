@@ -13,7 +13,7 @@ export async function getDepartments() {
     .eq('is_active', true)
     .order('name')
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
 
 export async function getDoctorsByDepartment(departmentId: string) {
@@ -44,7 +44,7 @@ export async function getDoctorSchedule(doctorId: string) {
     .eq('is_active', true)
     .order('day_of_week')
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
 
 // ─── Slot Generation ─────────────────────────────────────────
@@ -175,7 +175,7 @@ export async function getQueue(doctorId: string, dateStr?: string) {
     .order('appointment_time', { ascending: true })
 
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
 
 export async function getDepartmentQueue(departmentId: string, dateStr?: string) {
@@ -195,7 +195,7 @@ export async function getDepartmentQueue(departmentId: string, dateStr?: string)
     .order('queue_position', { ascending: true, nullsFirst: false })
 
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
 
 export async function getPatientAppointmentHistory(patientId: string) {
@@ -211,7 +211,7 @@ export async function getPatientAppointmentHistory(patientId: string) {
     .order('appointment_time', { ascending: false })
     .limit(50)
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
 
 export async function getTodayAppointments(dateStr?: string) {
@@ -229,7 +229,7 @@ export async function getTodayAppointments(dateStr?: string) {
     .lte('appointment_time', endOfDay(targetDate).toISOString())
     .order('appointment_time', { ascending: true })
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
 
 export async function getAppointmentById(id: string) {
@@ -256,5 +256,5 @@ export async function getAppointmentAuditLog(appointmentId: string) {
     .eq('appointment_id', appointmentId)
     .order('created_at', { ascending: false })
   if (error) throw new Error(error.message)
-  return data
+  return data || []
 }
