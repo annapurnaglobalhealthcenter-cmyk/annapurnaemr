@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public.clinical_audit_log (
 );
 
 ALTER TABLE public.clinical_audit_log ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "View clinical audit log" ON public.clinical_audit_log FOR SELECT TO authenticated USING (auth.has_permission('opd.view'));
+CREATE POLICY "View clinical audit log" ON public.clinical_audit_log FOR SELECT TO authenticated USING (public.has_permission('opd.view'));
 
 -- 3. Atomic RPC for Amendment
 CREATE OR REPLACE FUNCTION public.amend_clinical_record(
@@ -32,7 +32,7 @@ DECLARE
     v_old_record RECORD;
     v_new_record_id UUID;
 BEGIN
-    IF NOT auth.has_permission('opd.create') THEN
+    IF NOT public.has_permission('opd.create') THEN
         RAISE EXCEPTION 'Access Denied: Missing opd.create permission';
     END IF;
 

@@ -10,7 +10,7 @@ DECLARE
     v_bed_status TEXT;
 BEGIN
     -- Verify permission
-    IF NOT auth.has_permission('ipd.admit') THEN
+    IF NOT public.has_permission('ipd.admit') THEN
         RAISE EXCEPTION 'Access Denied: Missing ipd.admit permission';
     END IF;
 
@@ -57,7 +57,7 @@ DECLARE
     v_new_bed_status TEXT;
     v_patient_id UUID;
 BEGIN
-    IF NOT auth.has_permission('ipd.transfer') THEN
+    IF NOT public.has_permission('ipd.transfer') THEN
         RAISE EXCEPTION 'Access Denied: Missing ipd.transfer permission';
     END IF;
 

@@ -77,7 +77,7 @@ CREATE TRIGGER trigger_lock_vitals
 -- 5. RLS for medicine_master
 ALTER TABLE public.medicine_master ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Anyone authenticated can view medicines" ON public.medicine_master FOR SELECT TO authenticated USING (true);
-CREATE POLICY "Pharmacy can manage medicines" ON public.medicine_master FOR ALL TO authenticated USING (auth.has_permission('pharmacy.manage'));
+CREATE POLICY "Pharmacy can manage medicines" ON public.medicine_master FOR ALL TO authenticated USING (public.has_permission('pharmacy.manage'));
 
 -- 6. Seed some default medicines
 INSERT INTO public.medicine_master (generic_name, brand_name, strength, dosage_form, route, unit) VALUES

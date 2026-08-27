@@ -21,11 +21,11 @@ ON ot_schedules FOR SELECT TO authenticated USING (true);
 
 CREATE POLICY "Enable insert for ot.manage on ot_schedules"
 ON ot_schedules FOR INSERT TO authenticated 
-WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.code = 'ot.manage'));
+WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.name = 'ot.manage'));
 
 CREATE POLICY "Enable update for ot.manage on ot_schedules"
 ON ot_schedules FOR UPDATE TO authenticated 
-USING (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.code = 'ot.manage'));
+USING (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.name = 'ot.manage'));
 
 -- ot_pac_records
 CREATE POLICY "Enable read access for all authenticated users on ot_pac_records"
@@ -33,7 +33,7 @@ ON ot_pac_records FOR SELECT TO authenticated USING (true);
 
 CREATE POLICY "Enable insert for ot.manage on ot_pac_records"
 ON ot_pac_records FOR INSERT TO authenticated 
-WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.code = 'ot.manage'));
+WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.name = 'ot.manage'));
 
 -- ot_intraop_records
 CREATE POLICY "Enable read access for all authenticated users on ot_intraop_records"
@@ -41,7 +41,7 @@ ON ot_intraop_records FOR SELECT TO authenticated USING (true);
 
 CREATE POLICY "Enable insert for ot.manage on ot_intraop_records"
 ON ot_intraop_records FOR INSERT TO authenticated 
-WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.code = 'ot.manage'));
+WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.name = 'ot.manage'));
 
 -- ot_postop_records
 CREATE POLICY "Enable read access for all authenticated users on ot_postop_records"
@@ -49,4 +49,4 @@ ON ot_postop_records FOR SELECT TO authenticated USING (true);
 
 CREATE POLICY "Enable insert for ot.manage on ot_postop_records"
 ON ot_postop_records FOR INSERT TO authenticated 
-WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.code = 'ot.manage'));
+WITH CHECK (EXISTS (SELECT 1 FROM user_roles ur JOIN role_permissions rp ON ur.role_id = rp.role_id JOIN permissions p ON rp.permission_id = p.id WHERE ur.user_id = auth.uid() AND p.name = 'ot.manage'));

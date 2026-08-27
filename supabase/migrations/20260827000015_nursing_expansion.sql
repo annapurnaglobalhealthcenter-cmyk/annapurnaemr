@@ -6,7 +6,7 @@
 -- Allow vitals to be linked directly to an encounter/patient without needing a clinical record wrapper
 ALTER TABLE public.vitals ADD COLUMN encounter_id UUID REFERENCES public.encounters(id) ON DELETE CASCADE;
 ALTER TABLE public.vitals ADD COLUMN patient_id UUID REFERENCES public.patients(id) ON DELETE CASCADE;
-ALTER TABLE public.vitals ADD COLUMN recorded_by UUID REFERENCES public.user_profiles(id);
+ALTER TABLE public.vitals ADD COLUMN IF NOT EXISTS recorded_by UUID REFERENCES public.user_profiles(id);
 
 -- Make clinical_record_id nullable so independent nursing vitals can exist
 ALTER TABLE public.vitals ALTER COLUMN clinical_record_id DROP NOT NULL;

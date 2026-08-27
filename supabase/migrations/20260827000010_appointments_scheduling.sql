@@ -70,7 +70,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_appointments_no_double_book
 
 -- Performance indexes
 CREATE INDEX IF NOT EXISTS idx_appointments_date
-    ON public.appointments(DATE(appointment_time));
+    ON public.appointments(appointment_time);
 
 CREATE INDEX IF NOT EXISTS idx_appointments_patient
     ON public.appointments(patient_id);
@@ -102,7 +102,7 @@ CREATE OR REPLACE FUNCTION public.book_appointment(
 DECLARE
     new_appointment_id UUID;
 BEGIN
-    IF NOT auth.has_permission('appointment.create') THEN
+    IF NOT public.has_permission('appointment.create') THEN
         RAISE EXCEPTION 'Access Denied: Missing appointment.create permission';
     END IF;
 
@@ -194,14 +194,14 @@ CREATE POLICY "Anyone authenticated can view departments"
 
 CREATE POLICY "Admins manage departments"
     ON public.departments FOR ALL TO authenticated
-    USING (auth.has_permission('appointment.create'));
+    USING (public.has_permission('appointment.create'));
 
 CREATE POLICY "Anyone authenticated can view doctor schedules"
     ON public.doctor_schedules FOR SELECT TO authenticated USING (true);
 
 CREATE POLICY "Admins manage doctor schedules"
     ON public.doctor_schedules FOR ALL TO authenticated
-    USING (auth.has_permission('appointment.create'));
+    USING (public.has_permission('appointment.create'));
 
 -- Tighten appointment RLS to use RBAC
 DROP POLICY IF EXISTS "Authenticated users can select appointments" ON public.appointments;
@@ -210,11 +210,11 @@ DROP POLICY IF EXISTS "Authenticated users can update appointments" ON public.ap
 
 CREATE POLICY "View appointments"
     ON public.appointments FOR SELECT TO authenticated
-    USING (auth.has_permission('appointment.view'));
+    USING (public.has_permission('appointment.view'));
 
 CREATE POLICY "Audit log is append-only read"
     ON public.appointment_audit_log FOR SELECT TO authenticated
-    USING (auth.has_permission('appointment.view'));
+    USING (public.has_permission('appointment.view'));
 
 -- Seed default departments
 INSERT INTO public.departments (name, code) VALUES

@@ -1,5 +1,5 @@
 -- Permissions Table
-CREATE TABLE public.permissions (
+CREATE TABLE IF NOT EXISTS public.permissions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL UNIQUE, -- e.g., 'patient.view', 'patient.create'
     description TEXT,
@@ -7,7 +7,7 @@ CREATE TABLE public.permissions (
 );
 
 -- Role Permissions Mapping
-CREATE TABLE public.role_permissions (
+CREATE TABLE IF NOT EXISTS public.role_permissions (
     role_id UUID REFERENCES public.roles(id) ON DELETE CASCADE,
     permission_id UUID REFERENCES public.permissions(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -15,7 +15,7 @@ CREATE TABLE public.role_permissions (
 );
 
 -- RLS Helper Function: Check if user has permission
-CREATE OR REPLACE FUNCTION auth.has_permission(required_permission TEXT)
+CREATE OR REPLACE FUNCTION public.has_permission(required_permission TEXT)
 RETURNS BOOLEAN AS $$
 DECLARE
     user_role_id UUID;

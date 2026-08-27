@@ -73,7 +73,7 @@ DECLARE
     date_prefix TEXT;
 BEGIN
     -- Only allow if user has permission
-    IF NOT auth.has_permission('patient.create') THEN
+    IF NOT public.has_permission('patient.create') THEN
         RAISE EXCEPTION 'Access Denied: Missing patient.create permission';
     END IF;
 
@@ -117,20 +117,20 @@ ALTER TABLE public.patient_conditions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.patient_documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.patient_timeline ENABLE ROW LEVEL SECURITY;
 
--- Note: In a real system, these would use auth.has_permission() deeply, 
+-- Note: In a real system, these would use public.has_permission() deeply, 
 -- but for now we enforce basic authenticated access to prevent UI breaks,
 -- since the RPC handles the strict permission enforcement for creation.
-CREATE POLICY "View allergies" ON public.patient_allergies FOR SELECT TO authenticated USING (auth.has_permission('patient.view'));
-CREATE POLICY "Manage allergies" ON public.patient_allergies FOR ALL TO authenticated USING (auth.has_permission('patient.edit'));
+CREATE POLICY "View allergies" ON public.patient_allergies FOR SELECT TO authenticated USING (public.has_permission('patient.view'));
+CREATE POLICY "Manage allergies" ON public.patient_allergies FOR ALL TO authenticated USING (public.has_permission('patient.edit'));
 
-CREATE POLICY "View conditions" ON public.patient_conditions FOR SELECT TO authenticated USING (auth.has_permission('patient.view'));
-CREATE POLICY "Manage conditions" ON public.patient_conditions FOR ALL TO authenticated USING (auth.has_permission('patient.edit'));
+CREATE POLICY "View conditions" ON public.patient_conditions FOR SELECT TO authenticated USING (public.has_permission('patient.view'));
+CREATE POLICY "Manage conditions" ON public.patient_conditions FOR ALL TO authenticated USING (public.has_permission('patient.edit'));
 
-CREATE POLICY "View timeline" ON public.patient_timeline FOR SELECT TO authenticated USING (auth.has_permission('patient.view'));
+CREATE POLICY "View timeline" ON public.patient_timeline FOR SELECT TO authenticated USING (public.has_permission('patient.view'));
 
 -- Tighten the Patients Policy based on expanded RBAC
 DROP POLICY IF EXISTS "Authenticated users can select patients" ON public.patients;
-CREATE POLICY "Users with patient.view can select" ON public.patients FOR SELECT TO authenticated USING (auth.has_permission('patient.view'));
+CREATE POLICY "Users with patient.view can select" ON public.patients FOR SELECT TO authenticated USING (public.has_permission('patient.view'));
 
 DROP POLICY IF EXISTS "Authenticated users can update patients" ON public.patients;
-CREATE POLICY "Users with patient.edit can update" ON public.patients FOR UPDATE TO authenticated USING (auth.has_permission('patient.edit'));
+CREATE POLICY "Users with patient.edit can update" ON public.patients FOR UPDATE TO authenticated USING (public.has_permission('patient.edit'));
