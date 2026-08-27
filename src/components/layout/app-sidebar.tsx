@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Activity, Users, Bed, CreditCard, Shield, Settings, CalendarDays, FlaskConical, Stethoscope, Microscope, ClipboardList, Pill, Calendar } from "lucide-react"
+import { Activity, Users, Bed, CreditCard, Shield, Settings, CalendarDays, FlaskConical, Stethoscope, Microscope, ClipboardList, Pill, Calendar, BookOpen } from "lucide-react"
 
 const navigation = [
   { name: 'Dashboard',    href: '/',             icon: Activity },
@@ -18,6 +18,7 @@ const navigation = [
   { name: 'Billing',      href: '/billing',      icon: CreditCard },
   { name: 'Schemes',      href: '/schemes',      icon: Shield },
   { name: 'Audit Logs',   href: '/audit',        icon: ClipboardList },
+  { name: 'User Guide',   href: '/guide',        icon: BookOpen },
 ]
 
 export function AppSidebar() {
